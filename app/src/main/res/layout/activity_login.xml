@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_gradient" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="@dimen/ten_dp">
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/nameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:drawablePadding="@dimen/five_dp"
+            android:drawableStart="@drawable/ic_user"
+            android:hint="@string/enter_name"
+            android:inputType="text"
+            android:nextFocusLeft="@+id/edtpassword"
+            android:nextFocusUp="@+id/edtpassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="@dimen/sixteen_sp"
+            pixlui:typeface="Titillium-Regular.otf" />
+
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white_full"
+            android:drawablePadding="@dimen/five_dp"
+            android:drawableStart="@drawable/ic_pass"
+            android:hint="@string/enter_password"
+            android:inputType="textPassword"
+            android:padding="@dimen/ten_dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="@dimen/sixteen_sp"
+            pixlui:typeface="Titillium-Regular.otf" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.neopixl.pixlui.components.button.Button
+                android:id="@+id/loginAsAdminBT"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_white_full"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/login_as_admin"
+                android:textAllCaps="true"
+                android:layout_marginEnd="@dimen/two_dp"
+                android:textColor="@color/button_color"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Titillium-Regular.otf" />
+
+            <com.neopixl.pixlui.components.button.Button
+                android:id="@+id/loginAsUserBT"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/two_dp"
+                android:background="@drawable/rounded_button"
+                android:padding="@dimen/ten_dp"
+                android:text="@string/login_as_user"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="@dimen/sixteen_sp"
+                pixlui:typeface="Titillium-Regular.otf" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

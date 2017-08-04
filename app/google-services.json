@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "737070471495",
+    "firebase_url": "https://qrreader-7cc79.firebaseio.com",
+    "project_id": "qrreader-7cc79",
+    "storage_bucket": "qrreader-7cc79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737070471495:android:69eedcf2c38e91ad",
+        "android_client_info": {
+          "package_name": "com.example.divyanshujain.qrcodereaderlib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737070471495-g5a32n3h8uoed5r1asfgaghbl7cudbpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL37orQWWrxRC0wUVlMZfgmDF-RgtyM8s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
