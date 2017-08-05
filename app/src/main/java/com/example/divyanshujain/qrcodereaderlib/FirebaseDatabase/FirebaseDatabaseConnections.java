@@ -1,5 +1,7 @@
 package com.example.divyanshujain.qrcodereaderlib.FirebaseDatabase;
 
+import android.util.Log;
+
 import com.example.divyanshujain.qrcodereaderlib.Callbacks.GetOtherUserCallback;
 import com.example.divyanshujain.qrcodereaderlib.Callbacks.GetUserCallback;
 import com.example.divyanshujain.qrcodereaderlib.Models.OtherUser;
@@ -37,13 +39,18 @@ public class FirebaseDatabaseConnections implements ChildEventListener, ValueEve
     public void addUser(User user) {
         mFirebaseDatabase = mFirebaseInstance.getReference("users");
         mFirebaseDatabase.child(user.getUserType()).setValue(user);
-        addUserChangeListener();
+        addUserChangeListener(user.getUserType());
     }
 
     public void addOtherUser(OtherUser user) {
         mFirebaseDatabase = mFirebaseInstance.getReference("users");
-        mFirebaseDatabase.child(user.getQrCode()).setValue(user);
-        addUserChangeListener();
+        String id = removeUnwantedSymbols(user.getQrCode());
+        mFirebaseDatabase.child(id).setValue(user);
+        addUserChangeListener(id);
+    }
+
+    private String removeUnwantedSymbols(String id) {
+        return id.replaceAll("[\\[;\\/:#.$'\\]]", "");
     }
 
 
@@ -55,21 +62,23 @@ public class FirebaseDatabaseConnections implements ChildEventListener, ValueEve
         citiesQuery.addValueEventListener(this);
 
     }
+
     public void getOtherUser(String id, GetOtherUserCallback getOtherUserCallback) {
         this.otherUserCallback = getOtherUserCallback;
         mFirebaseDatabase = mFirebaseInstance.getReference("users");
+        id = removeUnwantedSymbols(id);
         DatabaseReference adminUser = mFirebaseDatabase.child(id);
         Query citiesQuery = adminUser.orderByKey();
         citiesQuery.addValueEventListener(this);
 
     }
 
-    private void addUserChangeListener() {
+    private void addUserChangeListener(String id) {
         // User data change listener
-        mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+                Log.d("OnValueEventListener :-", dataSnapshot.getValue().toString());
 
             }
 

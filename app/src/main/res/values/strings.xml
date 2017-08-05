@@ -11,4 +11,6 @@
     <string name="submit_data">Submit</string>
     <string name="click_here_to_scan_data">Click Here To Scan Barcode</string>
     <string name="description">Description</string>
+    <string name="successfull_login">Successfully Login</string>
+    <string name="invalid_user">Invalid User!</string>
 </resources>

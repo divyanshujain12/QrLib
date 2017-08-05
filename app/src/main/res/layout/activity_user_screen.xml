@@ -76,7 +76,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/ten_dp">
 
-                <com.neopixl.pixlui.components.edittext.EditText
+                <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/nameET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     pixlui:typeface="Titillium-Regular.otf" />
 
 
-                <com.neopixl.pixlui.components.edittext.EditText
+                <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/emailET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                     android:textSize="@dimen/sixteen_sp"
                     pixlui:typeface="Titillium-Regular.otf" />
 
-                <com.neopixl.pixlui.components.edittext.EditText
+                <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/phoneET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,6 +149,7 @@
                     android:background="@drawable/rounded_button"
                     android:padding="@dimen/ten_dp"
                     android:text="Re Scan QR Code"
+                    android:onClick="@{(v) -> presenter.openQrScanner(v)}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/darker_gray"

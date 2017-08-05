@@ -13,4 +13,6 @@
     app:subtitleTextAppearance="@style/ToolbarSubtitleAppearance"
     app:theme="@style/CustomToolbar"
     app:title="@string/description"
-    app:titleTextColor="@android:color/white" />
+    app:titleTextColor="@android:color/white"
+    android:gravity="right">
+</android.support.v7.widget.Toolbar>

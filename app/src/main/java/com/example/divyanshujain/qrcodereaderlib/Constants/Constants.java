@@ -10,4 +10,6 @@ public interface Constants {
     String EMAIL = "email";
     String PHONE = "phone";
     String DOB = "dob";
+    String USER_TYPE = "user_type";
+    String LOGGED_IN = "logged_in";
 }

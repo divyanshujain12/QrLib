@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
@@ -13,7 +15,10 @@ import android.widget.Toast;
 import com.example.divyanshujain.qrcodereaderlib.Constants.Constants;
 import com.example.divyanshujain.qrcodereaderlib.FirebaseDatabase.FirebaseDatabaseConnections;
 import com.example.divyanshujain.qrcodereaderlib.Models.OtherUser;
+import com.example.divyanshujain.qrcodereaderlib.Models.ValidationModel;
 import com.example.divyanshujain.qrcodereaderlib.Utilities.CommonFunctions;
+import com.example.divyanshujain.qrcodereaderlib.Utilities.MySharedPereference;
+import com.example.divyanshujain.qrcodereaderlib.Utilities.Validation;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.neopixl.pixlui.components.button.Button;
@@ -22,6 +27,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
@@ -49,7 +55,9 @@ public class AdminScreen extends AppCompatActivity {
     private IntentIntegrator qrScan;
     Calendar myCalendar = Calendar.getInstance();
     private String username;
-    private String name, email, phone, dob, qrCodeData;
+
+    Validation validation;
+    HashMap<View, String> hashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +69,21 @@ public class AdminScreen extends AppCompatActivity {
     }
 
     private void InitViews() {
-        username = getIntent().getStringExtra(Constants.USERNAME);
+        username = MySharedPereference.getInstance().getString(this, Constants.EMAIL);
         CommonFunctions.getInstance().configureToolbarWithOutBackButton(this, toolbarView, username);
         qrScan = new IntentIntegrator(this);
+
+        validation = new Validation();
+        validation.addValidationField(new ValidationModel(nameET, Validation.TYPE_NAME_VALIDATION, "Invalid Name"));
+        validation.addValidationField(new ValidationModel(emailET, Validation.TYPE_EMAIL_VALIDATION, "Invalid EMail"));
+        validation.addValidationField(new ValidationModel(phoneET, Validation.TYPE_PHONE_VALIDATION, "Invalid Number"));
+        validation.addValidationField(new ValidationModel(dobTV, Validation.TYPE_EMPTY_FIELD_VALIDATION, "Invalid Date of Birth"));
+        validation.addValidationField(new ValidationModel(clickToScanTV, Validation.TYPE_EMPTY_FIELD_VALIDATION, "Kindly Scan QR Code"));
     }
 
     @OnClick({R.id.clickToScanTV, R.id.submitBT, R.id.dobTV})
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.dobTV:
                 new DatePickerDialog(this, date, myCalendar
@@ -78,24 +94,24 @@ public class AdminScreen extends AppCompatActivity {
                 qrScan.initiateScan();
                 break;
             case R.id.submitBT:
-                name = nameET.getText().toString();
-                email = emailET.getText().toString();
-                phone = phoneET.getText().toString();
-                dob = dobTV.getText().toString();
-                OtherUser otherUser = createJsonForSubmitUserData();
-                FirebaseDatabaseConnections.getInstance().addOtherUser(otherUser);
+                hashMap = validation.validate(this);
+                if (hashMap != null) {
+                    OtherUser otherUser = createJsonForSubmitUserData();
+                    FirebaseDatabaseConnections.getInstance().addOtherUser(otherUser);
+                }
                 break;
         }
+
     }
 
     private OtherUser createJsonForSubmitUserData() {
         OtherUser otherUser = new OtherUser();
         try {
-            otherUser.setName(name);
-            otherUser.setEmail(email);
-            otherUser.setPhone(phone);
-            otherUser.setDob(dob);
-            otherUser.setQrCode(qrCodeData);
+            otherUser.setName(hashMap.get(nameET));
+            otherUser.setEmail(hashMap.get(emailET));
+            otherUser.setPhone(hashMap.get(phoneET));
+            otherUser.setDob(hashMap.get(dobTV));
+            otherUser.setQrCode(hashMap.get(clickToScanTV));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,7 +127,7 @@ public class AdminScreen extends AppCompatActivity {
             if (result.getContents() == null) {
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
-                qrCodeData = result.getContents();
+                String qrCodeData = result.getContents();
                 clickToScanTV.setText(qrCodeData);
             }
         } else {
@@ -134,8 +150,26 @@ public class AdminScreen extends AppCompatActivity {
     };
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dobTV.setText(sdf.format(myCalendar.getTime()));
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logount_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                MySharedPereference.getInstance().clearSharedPreference(this);
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return true;
     }
 }

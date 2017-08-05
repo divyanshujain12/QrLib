@@ -22,6 +22,7 @@ public class OtherUser extends BaseObservable {
 
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
+
     }
 
     @Bindable
